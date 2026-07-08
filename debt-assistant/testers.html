@@ -36,7 +36,6 @@
   header.hero {
     padding: 72px 0 40px;
     border-bottom: 2px solid var(--ink);
-    position: relative;
   }
 
   .eyebrow {
@@ -50,7 +49,6 @@
     align-items: center;
     gap: 10px;
   }
-
   .eyebrow::before {
     content: "";
     width: 24px;
@@ -66,11 +64,7 @@
     letter-spacing: -0.01em;
     line-height: 1.05;
   }
-
-  h1 em {
-    font-style: italic;
-    color: var(--ledger-red);
-  }
+  h1 em { font-style: italic; color: var(--ledger-red); }
 
   .subhead {
     font-family: 'Helvetica Neue', Arial, sans-serif;
@@ -80,7 +74,6 @@
     margin: 0;
   }
 
-  /* waveform signature */
   .waveform {
     display: flex;
     align-items: flex-end;
@@ -95,15 +88,72 @@
     border-radius: 1px;
   }
 
-  /* ---- Section framing ---- */
-  section {
-    padding: 44px 0;
-    border-bottom: 1px solid var(--line);
+  /* ---- Índice (funciona como tabs) ---- */
+  nav.toc {
+    padding: 28px 0;
+    border-bottom: 2px solid var(--ink);
+    font-family: 'Helvetica Neue', Arial, sans-serif;
   }
 
-  section:last-of-type { border-bottom: none; }
+  nav.toc .label { margin: 0 0 14px; }
 
-  .label {
+  nav.toc ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    counter-reset: toc;
+  }
+
+  nav.toc button {
+    all: unset;
+    counter-increment: toc;
+    cursor: pointer;
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    padding: 10px 12px;
+    font-size: 15px;
+    color: var(--muted);
+    border-radius: 3px;
+    width: 100%;
+  }
+
+  nav.toc button::before {
+    content: counter(toc, decimal-leading-zero);
+    font-family: 'Courier New', monospace;
+    font-size: 12px;
+    color: var(--gold);
+    font-weight: 700;
+  }
+
+  nav.toc button:hover {
+    background: rgba(28,35,33,0.05);
+    color: var(--ink);
+  }
+
+  nav.toc button.active {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  nav.toc button.active::before { color: var(--gold); }
+
+  /* ---- Panels ---- */
+  .panel {
+    display: none;
+    padding: 40px 0;
+    animation: fadein 0.2s ease;
+  }
+  .panel.active { display: block; }
+
+  @keyframes fadein {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .panel .label {
     font-family: 'Helvetica Neue', Arial, sans-serif;
     font-size: 11px;
     letter-spacing: 0.12em;
@@ -113,18 +163,16 @@
     margin: 0 0 10px;
   }
 
-  h2 {
+  .panel h2 {
     font-family: 'Helvetica Neue', Arial, sans-serif;
     font-weight: 700;
-    font-size: 22px;
-    margin: 0 0 16px;
-    color: var(--ink);
+    font-size: 24px;
+    margin: 0 0 18px;
   }
 
-  p { margin: 0 0 14px; font-size: 16.5px; }
-  p:last-child { margin-bottom: 0; }
+  .panel p { margin: 0 0 14px; font-size: 16.5px; }
+  .panel p:last-child { margin-bottom: 0; }
 
-  /* ---- Market card ---- */
   .market-card {
     background: var(--card);
     border: 1px solid var(--line);
@@ -132,10 +180,8 @@
     padding: 22px 24px;
     font-family: 'Helvetica Neue', Arial, sans-serif;
     font-size: 15px;
-    color: var(--ink);
   }
 
-  /* ---- Language notice ---- */
   .notice {
     background: #fbf0e9;
     border: 1px solid #e3c4ab;
@@ -144,7 +190,6 @@
     font-family: 'Helvetica Neue', Arial, sans-serif;
     font-size: 15px;
   }
-
   .notice strong { color: var(--ledger-red); }
 
   code {
@@ -156,7 +201,6 @@
     font-size: 13px;
   }
 
-  /* ---- Timing banner ---- */
   .timing-banner {
     font-family: 'Helvetica Neue', Arial, sans-serif;
     font-size: 15px;
@@ -166,6 +210,7 @@
     display: flex;
     gap: 14px;
     align-items: flex-start;
+    margin-bottom: 28px;
   }
   .timing-banner .icon {
     font-family: 'Courier New', monospace;
@@ -174,43 +219,84 @@
     flex-shrink: 0;
   }
 
-  /* ---- Ledger timeline ---- */
-  .ledger {
+  .email-box {
+    background: var(--card);
+    border: 2px solid var(--ink);
+    padding: 24px;
     font-family: 'Helvetica Neue', Arial, sans-serif;
   }
+  .email-box .step {
+    display: flex;
+    gap: 14px;
+    margin-bottom: 16px;
+    align-items: flex-start;
+  }
+  .email-box .step:last-child { margin-bottom: 0; }
+  .email-box .step-num {
+    font-family: 'Courier New', monospace;
+    font-weight: 700;
+    color: var(--ledger-red);
+    font-size: 14px;
+    flex-shrink: 0;
+    width: 20px;
+  }
+  .email-box .step p { margin: 0; font-size: 15px; }
 
+  .install-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--ink);
+    color: var(--paper) !important;
+    text-decoration: none;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    padding: 16px 26px;
+    margin-top: 8px;
+    border: 2px solid var(--ink);
+    transition: background 0.15s ease, color 0.15s ease;
+  }
+  .install-btn:hover { background: var(--paper); color: var(--ink) !important; }
+  .install-btn .arrow { font-family: 'Courier New', monospace; }
+
+  .ledger { font-family: 'Helvetica Neue', Arial, sans-serif; }
   .entry {
     display: grid;
     grid-template-columns: 88px 1fr;
     gap: 20px;
-    padding: 20px 0;
+    padding: 18px 0;
     border-top: 1px dashed var(--line);
   }
   .entry:first-child { border-top: none; padding-top: 4px; }
-
   .entry .days {
     font-family: 'Courier New', monospace;
     font-size: 13px;
     color: var(--ledger-red);
     font-weight: 700;
-    letter-spacing: 0.02em;
     padding-top: 2px;
   }
+  .entry h3 { margin: 0 0 6px; font-size: 16px; font-weight: 700; }
+  .entry p { margin: 0; font-size: 15px; color: var(--muted); }
 
-  .entry h3 {
-    margin: 0 0 6px;
-    font-size: 16px;
-    font-weight: 700;
-    color: var(--ink);
+  /* ---- Prev/next nav ---- */
+  .panel-nav {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 32px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    font-family: 'Helvetica Neue', Arial, sans-serif;
   }
-
-  .entry p {
-    margin: 0;
-    font-size: 15px;
+  .panel-nav button {
+    all: unset;
+    cursor: pointer;
+    font-size: 14px;
     color: var(--muted);
   }
+  .panel-nav button:hover { color: var(--ledger-red); }
+  .panel-nav button:disabled { visibility: hidden; }
 
-  /* ---- Footer note ---- */
   footer {
     padding-top: 40px;
     font-family: 'Helvetica Neue', Arial, sans-serif;
@@ -218,15 +304,13 @@
     color: var(--muted);
     text-align: center;
   }
-
   footer .sig {
     display: inline-flex;
     align-items: center;
     gap: 8px;
     margin-bottom: 10px;
   }
-  footer .sig::before,
-  footer .sig::after {
+  footer .sig::before, footer .sig::after {
     content: "";
     width: 30px;
     height: 1px;
@@ -236,16 +320,12 @@
   @media (max-width: 560px) {
     header.hero { padding: 48px 0 32px; }
     .entry { grid-template-columns: 1fr; gap: 6px; }
-    .entry .days { padding-top: 0; }
   }
 
   @media (prefers-reduced-motion: no-preference) {
     .waveform span { animation: sway 2.4s ease-in-out infinite; }
   }
-  @keyframes sway {
-    0%, 100% { transform: scaleY(1); }
-    50% { transform: scaleY(0.55); }
-  }
+  @keyframes sway { 0%, 100% { transform: scaleY(1); } 50% { transform: scaleY(0.55); } }
 </style>
 </head>
 <body>
@@ -254,7 +334,7 @@
   <header class="hero">
     <p class="eyebrow">Guía para testers · Cierre</p>
     <h1>Debt Assistant<br><em>se prueba hablando.</em></h1>
-    <p class="subhead">Gracias por ayudarme con esto. Acá tenés todo lo que necesitás saber antes de instalar la app.</p>
+    <p class="subhead">Gracias por ayudarme con esto. Elegí una sección para leerla.</p>
     <div class="waveform" aria-hidden="true">
       <span style="height:40%"></span><span style="height:70%"></span><span style="height:30%"></span>
       <span style="height:90%"></span><span style="height:50%"></span><span style="height:65%"></span>
@@ -264,65 +344,100 @@
     </div>
   </header>
 
-  <section>
-    <p class="label">Qué es</p>
-    <h2>Una app que anota lo que decís</h2>
-    <p>Debt Assistant es una app para llevar el control de deudas y cobros usando comandos de voz, sin tener que anotar nada a mano. Le hablás y ella registra quién te debe, cuánto, y te ayuda a generar mensajes de cobro.</p>
-    <p>Está pensada para comerciantes que necesitan algo simple para no perder el hilo de los fiados.</p>
-  </section>
+  <nav class="toc">
+    <p class="label">Índice</p>
+    <ol>
+      <li><button class="tab-btn active" data-target="que-es">Qué es Debt Assistant</button></li>
+      <li><button class="tab-btn" data-target="mercado">Para qué mercado</button></li>
+      <li><button class="tab-btn" data-target="idioma">Sobre el idioma</button></li>
+      <li><button class="tab-btn" data-target="correo">Antes de instalar: mandame tu correo</button></li>
+      <li><button class="tab-btn" data-target="instalar">Link de instalación</button></li>
+      <li><button class="tab-btn" data-target="dias">Cómo probarla durante los 14 días</button></li>
+    </ol>
+  </nav>
 
-  <section>
-    <p class="label">Para qué mercado</p>
-    <h2>Chile prueba, Vietnam usa</h2>
+  <div id="que-es" class="panel active">
+    <p class="label">01</p>
+    <h2>Qué es Debt Assistant</h2>
+    <p>Es una app para llevar el control de deudas y cobros usando comandos de voz, sin tener que anotar nada a mano. Le hablás y ella registra quién te debe, cuánto, y te ayuda a generar mensajes de cobro.</p>
+    <p>Está pensada para comerciantes que necesitan algo simple para no perder el hilo de los fiados.</p>
+    <div class="panel-nav"><button disabled>← Anterior</button><button class="next-btn" data-target="mercado">Siguiente →</button></div>
+  </div>
+
+  <div id="mercado" class="panel">
+    <p class="label">02</p>
+    <h2>Para qué mercado</h2>
     <div class="market-card">
       Va a lanzarse primero en <strong>Vietnam</strong>. Ustedes la están probando acá en Chile solo para ayudarme a cumplir un requisito técnico de Google antes del lanzamiento, no porque el producto sea para el mercado chileno por ahora.
     </div>
-  </section>
+    <div class="panel-nav"><button class="prev-btn" data-target="que-es">← Anterior</button><button class="next-btn" data-target="idioma">Siguiente →</button></div>
+  </div>
 
-  <section>
-    <p class="label">Importante</p>
+  <div id="idioma" class="panel">
+    <p class="label">03</p>
     <h2>Sobre el idioma</h2>
     <p>Toda la app (textos, menús, navegación) está en inglés, debería ser bastante fácil de entender.</p>
     <div class="notice">
       Para el comando de voz que registra la deuda, <strong>hablale en inglés</strong>. El sistema que procesa el audio (<code>Gemini Flash 2.5</code>) espera recibir el prompt en inglés o vietnamita, así que si le hablás en español no lo va a reconocer bien. No es un bug, es cómo está configurado en esta etapa.
     </div>
-  </section>
+    <div class="panel-nav"><button class="prev-btn" data-target="mercado">← Anterior</button><button class="next-btn" data-target="correo">Siguiente →</button></div>
+  </div>
 
-  <section>
+  <div id="correo" class="panel">
+    <p class="label">04</p>
+    <h2>Antes de instalar: mandame tu correo</h2>
+    <div class="email-box">
+      <div class="step">
+        <span class="step-num">01</span>
+        <p>Antes de tocar el link de instalación, mandame el <strong>correo de Google</strong> que vas a usar en tu celular (el que tenés activo en Play Store).</p>
+      </div>
+      <div class="step">
+        <span class="step-num">02</span>
+        <p>Te tengo que agregar primero como tester en la consola de Google. Si instalás sin que te haya agregado antes, el link no te va a dejar entrar al programa de prueba.</p>
+      </div>
+      <div class="step">
+        <span class="step-num">03</span>
+        <p>Una vez que te confirme que ya estás agregado/a, ahí sí usás el link de instalación de la sección siguiente.</p>
+      </div>
+    </div>
+    <div class="panel-nav"><button class="prev-btn" data-target="idioma">← Anterior</button><button class="next-btn" data-target="instalar">Siguiente →</button></div>
+  </div>
+
+  <div id="instalar" class="panel">
+    <p class="label">05</p>
+    <h2>Link de instalación</h2>
+    <p>Una vez que te confirme que ya estás agregado/a como tester, entrá desde el navegador (Chrome) de tu celular a este link:</p>
+    <a class="install-btn" href="https://play.google.com/apps/testing/com.fyrstudio.debtassistant" target="_blank" rel="noopener">
+      Instalar Debt Assistant <span class="arrow">→</span>
+    </a>
+    <p style="margin-top:18px; font-size:14px; color:var(--muted);">Si el link no te muestra la opción de unirte como tester, avisame antes de seguir intentando.</p>
+    <div class="panel-nav"><button class="prev-btn" data-target="correo">← Anterior</button><button class="next-btn" data-target="dias">Siguiente →</button></div>
+  </div>
+
+  <div id="dias" class="panel">
+    <p class="label">06</p>
+    <h2>Cómo probarla durante los 14 días</h2>
     <div class="timing-banner">
       <span class="icon">→</span>
-      <span>Necesitamos que las 15 personas empecemos la prueba dentro de los mismos días. Aunque ya te puedas registrar y ver la app, la prueba oficial va a arrancar probablemente la próxima semana, una vez que juntemos a toda la gente necesaria y tengamos todo listo.</span>
+      <span>Necesitamos que las 15 personas empecemos la prueba dentro de los mismos días. Aunque ya te puedas registrar y ver la app, la prueba oficial va a arrancar probablemente la próxima semana (semana del 13 de Julio), una vez que juntemos a toda la gente necesaria y tengamos todo listo.</span>
     </div>
-  </section>
-
-  <section>
-    <p class="label">Cómo probarla</p>
-    <h2>14 días, sin apuro</h2>
     <div class="ledger">
       <div class="entry">
         <div class="days">Días<br>1–2</div>
-        <div>
-          <h3>Instalar y mirar</h3>
-          <p>Instalá la app, abrila, hacé login y date una vuelta por la interfaz.</p>
-        </div>
+        <div><h3>Instalar y mirar</h3><p>Instalá la app, abrila, hacé login y date una vuelta por la interfaz.</p></div>
       </div>
       <div class="entry">
         <div class="days">Días<br>3–10</div>
-        <div>
-          <h3>Usar de a poco</h3>
-          <p>Abrila un par de veces por semana, no hace falta todos los días. Si podés, registrá alguna deuda de prueba (inventada, no hace falta que sea real) hablándole en inglés, para ver cómo funciona la voz.</p>
-        </div>
+        <div><h3>Usar de a poco</h3><p>Abrila un par de veces por semana, no hace falta todos los días. Si podés, registrá alguna deuda de prueba (inventada, no hace falta que sea real) hablándole en inglés, para ver cómo funciona la voz.</p></div>
       </div>
       <div class="entry">
         <div class="days">Días<br>11–14</div>
-        <div>
-          <h3>Volver una última vez</h3>
-          <p>Abrila cerca del final, aunque sea para chequear que todo siga funcionando.</p>
-        </div>
+        <div><h3>Volver una última vez</h3><p>Abrila cerca del final, aunque sea para chequear que todo siga funcionando.</p></div>
       </div>
     </div>
     <p style="margin-top:24px; font-family:'Helvetica Neue',Arial,sans-serif; font-size:14px; color:var(--muted);">No hace falta usarla intensivamente ni todos los días. Con que la abras de vez en cuando durante esas dos semanas, alcanza.</p>
-  </section>
+    <div class="panel-nav"><button class="prev-btn" data-target="instalar">← Anterior</button><button disabled>Siguiente →</button></div>
+  </div>
 
   <footer>
     <div class="sig">Fyr Studio</div>
@@ -330,5 +445,18 @@
   </footer>
 
 </div>
+
+<script>
+  function showPanel(id) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.id === id));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.target === id));
+    window.scrollTo({ top: document.querySelector('nav.toc').offsetTop, behavior: 'smooth' });
+  }
+
+  document.querySelectorAll('.tab-btn, .next-btn, .prev-btn').forEach(btn => {
+    btn.addEventListener('click', () => showPanel(btn.dataset.target));
+  });
+</script>
+
 </body>
 </html>
